@@ -68,6 +68,7 @@ type bulkResultStats struct {
 
 const (
 	defaultEventType = "doc"
+	defaultEventType2 = "_doc"
 )
 
 // NewClient instantiates a new client.
@@ -304,7 +305,9 @@ func createEventBulkMeta(
 	if version.Major < 7 {
 		eventType = defaultEventType
 	}
-
+	if version.Major == 6 && version.Minor > 4 {
+		eventType = defaultEventType2
+	}
 	pipeline, err := getPipeline(event, pipelineSel)
 	if err != nil {
 		err := fmt.Errorf("failed to select pipeline: %v", err)
